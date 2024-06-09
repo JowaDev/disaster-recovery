@@ -1,0 +1,16 @@
+apiVersion: postgresql.cnpg.io/v1
+kind: Cluster
+metadata:
+  name: {{ .Values.dev.database.name }}
+  namespace: {{ .Values.dev.namespace }}
+spec:
+  instances: {{ .Values.dev.database.instance }}
+  primaryUpdateStrategy: unsupervised
+  monitoring:
+    enablePodMonitor: true
+  storage:
+    size: {{ .Values.dev.database.storage.size }}
+  bootstrap:
+    initdb:
+      secret:
+        name: {{ .Values.dev.database.secret.name }}

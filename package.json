@@ -6,21 +6,50 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "cnpg-repo-install": "helm repo add cnpg https://cloudnative-pg.github.io/charts && helm upgrade --install cnpg --namespace cnpg-system --create-namespace cnpg/cloudnative-pg",
+    "monitoring-repo-install": "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts && helm upgrade --install -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/kube-stack-config.yaml prometheus-community prometheus-community/kube-prometheus-stack",
+    "deploy-locally": "helm upgrade --install disaster-recovery ./disaster-recovery",
+    "patch-cnpg-svc": "kubectl patch svc postgresql-rw -n dev -p '{\"spec\": {\"type\": \"NodePort\", \"ports\": [{\"name\": \"postgres\", \"nodePort\": 30003, \"port\": 5432, \"targetPort\": 5432, \"protocol\": \"TCP\"}]}}'",
+    "monitoring-svc-forward": "kubectl port-forward svc/prometheus-community-grafana 3000:80",
+    "deploy": "bun run cnpg-repo-install && bun run monitoring-repo-install && bun run deploy-locally && bun run patch-cnpg-svc && bun run monitoring-svc-forward",
+    "generate-migration": "bunx drizzle-kit generate",
+    "push-migration": "bunx drizzle-kit migrate"
   },
   "dependencies": {
+    "@hookform/resolvers": "^3.6.0",
+    "@radix-ui/react-label": "^2.0.2",
+    "@radix-ui/react-popover": "^1.0.7",
+    "@radix-ui/react-scroll-area": "^1.0.5",
+    "@radix-ui/react-slot": "^1.0.2",
+    "@radix-ui/react-toast": "^1.1.5",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.1.1",
+    "dotenv": "^16.4.5",
+    "drizzle-orm": "^0.31.2",
+    "framer-motion": "^11.2.10",
+    "lucide-react": "^0.390.0",
+    "next": "14.2.3",
+    "postgres": "^3.4.4",
     "react": "^18",
     "react-dom": "^18",
-    "next": "14.2.3"
+    "react-hook-form": "^7.51.5",
+    "reveal.js": "^5.1.0",
+    "sharp": "^0.33.4",
+    "tailwind-merge": "^2.3.0",
+    "tailwindcss-animate": "^1.0.7",
+    "zod": "^3.23.8"
   },
   "devDependencies": {
-    "typescript": "^5",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18",
+    "drizzle-kit": "^0.22.6",
+    "eslint": "^8",
+    "eslint-config-next": "14.2.3",
     "postcss": "^8",
     "tailwindcss": "^3.4.1",
-    "eslint": "^8",
-    "eslint-config-next": "14.2.3"
+    "typescript": "^5",
+    "@types/reveal.js": "^5.0.3"
   }
 }

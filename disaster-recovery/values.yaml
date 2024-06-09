@@ -1,0 +1,21 @@
+# Global configuration
+dockerRegistry:
+  dockerconfigjson: ""
+image:
+  pullPolicy: Always
+  repository: jowadev/strapi-backend
+  tag: local
+
+# Dev
+dev:
+  fullname: db-backend
+  namespace: dev
+  database:
+    name: postgresql
+    instance: 3
+    storage:
+      size: 1Gi
+    secret:
+      name: database-secret
+      username: YXBw
+      password: VHhWZVE0bk44MlNTaVlIb3N3cU9VUlp2UURhTDRLcE5FbHNDRUVlOWJ3RHhNZDczS2NrSWVYelM1Y1U2TGlDMg==
