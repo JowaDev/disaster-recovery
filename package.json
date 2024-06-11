@@ -12,7 +12,7 @@
     "monitoring-repo-install": "helm repo add prometheus-community https://prometheus-community.github.io/helm-charts && helm upgrade --install -f https://raw.githubusercontent.com/cloudnative-pg/cloudnative-pg/main/docs/src/samples/monitoring/kube-stack-config.yaml prometheus-community prometheus-community/kube-prometheus-stack",
     "deploy-locally": "helm upgrade --install disaster-recovery ./disaster-recovery",
     "patch-cnpg-svc": "kubectl patch svc postgresql-rw -n dev -p '{\"spec\": {\"type\": \"NodePort\", \"ports\": [{\"name\": \"postgres\", \"nodePort\": 30003, \"port\": 5432, \"targetPort\": 5432, \"protocol\": \"TCP\"}]}}'",
-    "monitoring-svc-forward": "kubectl port-forward svc/prometheus-community-grafana 3000:80",
+    "monitoring-svc-forward": "kubectl port-forward svc/prometheus-community-grafana 3001:80",
     "deploy": "bun run cnpg-repo-install && bun run monitoring-repo-install && bun run deploy-locally && bun run patch-cnpg-svc && bun run monitoring-svc-forward",
     "generate-migration": "bunx drizzle-kit generate",
     "push-migration": "bunx drizzle-kit migrate"
